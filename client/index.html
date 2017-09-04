@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html,
+        body,
+        .content {
+            height: 100%
+        }
+
+        .content {
+            display: flex
+        }
+
+        li {
+            list-style: none
+        }
+
+        li.active {
+            background-color: #25848E
+        }
+
+        .left {
+            border-right: 1px solid #989898;
+            padding: 0.5rem;
+            width: 10rem;
+        }
+
+        #result {
+            word-break: break-all;
+            max-width: 1400px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="left">
+
+        </div>
+        <div class="right">
+            <div>
+                <input id='btnRun' type="button" value='Run' />
+                <input id='btnRunAll' type="button" value='Run All' />
+                <input id='btnClear' type="button" value='Clear' onclick="document.querySelector('#result').innerHTML=''" />
+                <input id='btnRefresh' type="button" value='Refresh' onclick="init(true)" />
+            </div>
+            <div id='result' style="overflow-y:auto">
+
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="FileSystem.js"></script>
+<script>
+    async function init(refresh) {
+        let fs = await FileSystem.getInstance()
+        let content = await fs.root.getFile('et.json').then(f => f.readAsText())
+        let data = JSON.parse(content)
+
+        renderGrad(data.gradations)
+        if (!refresh) {
+            registerEvents(data)
+        }
+    }
+    init(false)
+
+
+    function renderGrad(items) {
+        let html = items.map((item, index) => `<li data-id='${item.id}' class='${index === 0 ? "active" : ""}'>${item.name}</li>`).join('')
+        document.querySelector('.left').innerHTML = `<ul>     
+            ${html}     
+        </ul>
+         `
+    }
+
+    function registerEvents(data) {
+        let left = document.querySelector('.left'),
+            btnRun = document.querySelector('#btnRun'),
+            btnRunAll = document.querySelector('#btnRunAll'),
+            message = document.querySelector('#result')
+
+        left.querySelector('ul').addEventListener('click', ev => {
+            let el = ev.target
+            left.querySelector('li.active').classList.remove('active')
+            if (el.tagName == 'LI') {
+                el.classList.add('active')
+            }
+        })
+
+        btnRun.addEventListener('click', ev => {
+            appendMessage('开始编译......')
+            let steps = buildSteps(data, left.querySelector('li.active').getAttribute('data-id'))
+            appendMessage('编辑完成......')
+            appendMessage('开始发送数据......')
+            fetch('et', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    steps: steps
+                })
+            }).then(res => res.json()).then(data => {
+                appendMessage('请求成功')
+                appendMessage(`返回结果:${JSON.stringify(data)}`)
+            }).catch(err => {
+                appendMessage(err.message)
+                appendMessage(err.stack)
+            })
+        })
+    }
+
+
+    function buildSteps(data, id) {
+        let grad = data.gradations.find(g => g.id == id),
+            steps = [], stage, action, step
+        if (!grad) {
+            alert(`未找到id为${id}的gradation`)
+        }
+        grad.stages.forEach(stageId => {
+            step = []
+            stage = data.stages.find(st => st.id == stageId)
+            if (stage) {
+                asction = stage.actions.forEach(actionId => {
+                    action = data.actions.find(ac => ac.id == actionId)
+                    step.push(action)
+                })
+                steps.push(step)
+            }
+        })
+        return steps
+    }
+
+    function appendMessage(message) {
+        let d = new Date()
+        result.innerHTML += `${d.getHours()}:${d.getMinutes()} :${message}<br>`
+    }
+
+</script>
+
+
+
+</html>

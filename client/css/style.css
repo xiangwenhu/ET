@@ -1,0 +1,145 @@
+html,body{
+    height: 100%;
+    width: 100%;
+    margin: 0
+}
+
+body{
+    display:flex;
+    flex-direction: column
+}
+
+ul {
+    margin: 0;
+    padding: 0
+}
+
+li{
+    list-style: none;   
+}
+
+header.header{
+    height: 4rem;
+    position: relative;   
+    color: #cdbfe3;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+    background-color: #6f5499;
+}
+
+footer.footer{
+    height: 4rem;  
+    color: #99979c;
+    text-align: center;
+    background-color: #2a2730;
+}
+
+.content{
+    flex: 1 1 auto;
+    display: flex;   
+}
+
+.content .left,.content .right{
+    flex: 0 0 12rem;
+    border-right: 1px solid #ddd;   
+}
+
+.content .left .search-part {
+    height: 2.5rem;
+    border-bottom: 1px solid #ddd
+}
+
+.content .left .search{
+    border-radius: 1rem;
+    margin: 0.2rem 0.1rem;
+    line-height: 1.2rem;
+}
+
+.content .main{
+    flex: 1 1 auto;
+    overflow-y: auto
+}
+.header .menu>ul {
+    margin: 0;
+    padding: 0
+}
+
+.header .menu>ul li{
+    list-style: none;
+    display: inline-block;
+    width: 6rem;
+    line-height: 3.2rem;
+    height: 3.8rem;
+    text-align: center
+}
+
+.header .menu>ul li.active{
+    background-color: #9E81A0
+}
+
+.item-menu li{
+    padding:0.5rem 0 0.5rem 1rem
+}
+
+.item-menu li.active{
+    background-color: #25848E
+}
+
+
+.item { 
+    min-height: 10rem;
+    overflow-y: auto;
+    border: 1px solid #234561;    
+}
+
+.action{
+    display: flex;
+    border: 1px solid #98E5E5;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.action div.action-type{
+    width: 4rem;
+}
+.action div.action-name{
+    flex: 1 1 auto
+}
+.action div.action-op{
+    width: 4rem;
+}
+
+.stage-code{
+    flex: 1 1 auto
+}
+
+.op-remove{
+    flex: 0 0 4rem;
+    border: 1px solid red;
+    display: flex    
+}
+
+.op-type {
+    flex: 0 0 4rem;
+    align-self: center;
+}
+
+.op-remove>span{
+    align-self: center;
+    flex: 1;
+    text-align: center;
+}
+
+.op-add {
+    border: 1px solid #98E5E5;
+    text-align: center;
+    color: #98E5E5;
+    height: 2.5rem;
+}
+
+.op-add, .op-remove{
+    cursor: pointer;
+} 
+
+.right .item-menu li{
+    background-color: beige
+}

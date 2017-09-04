@@ -1,0 +1,33 @@
+{
+  "name": "et",
+  "version": "1.0.0",
+  "description": "Easy Testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiangwenhu/ET.git"
+  },
+  "keywords": [
+    "Testing",
+    "nodejs"
+  ],
+  "author": "xiangwenhu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiangwenhu/ET/issues"
+  },
+  "homepage": "https://github.com/xiangwenhu/ET#readme",
+  "dependencies": {
+    "http-proxy-middleware": "^0.17.4",
+    "koa": "^2.3.0",
+    "koa-body": "^2.3.0",
+    "koa-compose": "^4.0.0",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
+    "node-fetch": "^1.7.2",
+    "only": "0.0.2"
+  }
+}
