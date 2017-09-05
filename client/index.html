@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title></title>
+    <title>Easy Testing</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -58,32 +58,27 @@
 
 <script src="FileSystem.js"></script>
 <script>
+    var data = []
     async function init(refresh) {
         let fs = await FileSystem.getInstance()
         let content = await fs.root.getFile('et.json').then(f => f.readAsText())
-        let data = JSON.parse(content)
+        data = JSON.parse(content)
 
         renderGrad(data.gradations)
         if (!refresh) {
-            registerEvents(data)
+            registerEvents()
         }
     }
     init(false)
 
 
     function renderGrad(items) {
-        let html = items.map((item, index) => `<li data-id='${item.id}' class='${index === 0 ? "active" : ""}'>${item.name}</li>`).join('')
-        document.querySelector('.left').innerHTML = `<ul>     
+        let html = items.map((item, index) => `<li data-id='${item.id}' class='${index === 0 ? "active" : ""}'>${item.name}</li>`).join(''),
+            left = document.querySelector('.left')
+        left.innerHTML = `<ul>     
             ${html}     
         </ul>
          `
-    }
-
-    function registerEvents(data) {
-        let left = document.querySelector('.left'),
-            btnRun = document.querySelector('#btnRun'),
-            btnRunAll = document.querySelector('#btnRunAll'),
-            message = document.querySelector('#result')
 
         left.querySelector('ul').addEventListener('click', ev => {
             let el = ev.target
@@ -92,10 +87,18 @@
                 el.classList.add('active')
             }
         })
+    }
+
+    function registerEvents() {
+        let left = document.querySelector('.left'),
+            btnRun = document.querySelector('#btnRun'),
+            btnRunAll = document.querySelector('#btnRunAll'),
+            message = document.querySelector('#result')
+
 
         btnRun.addEventListener('click', ev => {
             appendMessage('开始编译......')
-            let steps = buildSteps(data, left.querySelector('li.active').getAttribute('data-id'))
+            let steps = buildSteps(left.querySelector('li.active').getAttribute('data-id'))
             appendMessage('编辑完成......')
             appendMessage('开始发送数据......')
             fetch('et', {
@@ -117,7 +120,7 @@
     }
 
 
-    function buildSteps(data, id) {
+    function buildSteps(id) {
         let grad = data.gradations.find(g => g.id == id),
             steps = [], stage, action, step
         if (!grad) {
@@ -141,6 +144,8 @@
         let d = new Date()
         result.innerHTML += `${d.getHours()}:${d.getMinutes()} :${message}<br>`
     }
+
+    console.log("%c你就是天边那白色的云彩！", "color: blue; font-size: 20px");
 
 </script>
 

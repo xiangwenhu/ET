@@ -100,6 +100,7 @@ class ETController {
         let id = this._getId(), index = this.items.findIndex(item => item.id == id)
         index > -1 && this.items.splice(index, 1)
         this.refresh()
+        file.write(JSON.stringify(data))
     }
 
     onAdd() { }
@@ -560,5 +561,8 @@ class TopMenu {
 }
 const menus = [{ id: 1, name: 'Action' }, { id: 2, name: 'Stage' }, { id: 3, name: 'Gradation' }]
 new TopMenu(menus).render(document.querySelector('.menu'))
+
+
+console.log("%c小样，不错，会Debug啊！","color: red; font-size: 20px");
 
 
